@@ -22,12 +22,12 @@ jobs:
           name: "Checkout"
           command: "echo Hello, World!"
   build-java:
+    working_directory: ~/project
     docker:
       - image: eclipse-temurin:17.0.8.1_1-jdk
     steps:
       - run:
           name: build demo
-          pwd: demo/
           command: ./mvnw clean build
 
 # Orchestrate jobs using workflows
@@ -39,7 +39,7 @@ workflows:
           filters:
             branches:
               only:
-                - feature
+                - /^feature\/.*/
       - build-java:
           requires:
             - checkout
